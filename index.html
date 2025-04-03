@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pferdegewicht-Rechner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f5f3;
+      color: #4a3f35;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #b28888;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #d4a5a5;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 2rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .disclaimer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    .copyright {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      text-align: center;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pferdegewicht berechnen</h1>
+  <p>Bitte gib die Maße deines Pferdes in Zentimetern ein:</p>
+
+  <label for="rumpf">Körperumfang (hinter dem letzten Rippenbogen)</label>
+  <input type="number" id="rumpf" placeholder="z. B. 180">
+
+  <label for="hals">Halsumfang (mittlere Stelle)</label>
+  <input type="number" id="hals" placeholder="z. B. 90">
+
+  <label for="brust">Brustumfang (vor dem Widerrist)</label>
+  <input type="number" id="brust" placeholder="z. B. 160">
+
+  <label for="roehrbein">Röhrbeinumfang (vorne)</label>
+  <input type="number" id="roehrbein" placeholder="z. B. 20">
+
+  <label for="hoehe">Widerristhöhe</label>
+  <input type="number" id="hoehe" placeholder="z. B. 160">
+
+  <button onclick="berechneGewicht()">Gewicht berechnen</button>
+
+  <div id="result"></div>
+
+  <div class="disclaimer">
+    Hinweis: Dieser Rechner ersetzt keine Waage. Die Ergebnisse können um ca. 10–20 kg abweichen und dienen lediglich der Orientierung.
+  </div>
+
+  <div class="copyright">
+    © 2025 Pferdeliebehealthy. Alle Rechte vorbehalten.
+  </div>
+
+  <script>
+    function berechneGewicht() {
+      const rumpf = parseFloat(document.getElementById('rumpf').value);
+      const brust = parseFloat(document.getElementById('brust').value);
+      const hoehe = parseFloat(document.getElementById('hoehe').value);
+
+      if (isNaN(rumpf) || isNaN(brust) || isNaN(hoehe)) {
+        document.getElementById('result').innerText = 'Bitte gib alle nötigen Werte ein.';
+        return;
+      }
+
+      const gewicht = (brust * brust * rumpf) / 11900;
+      const gerundet = Math.round(gewicht);
+
+      let einschätzung = '';
+      if (gerundet < hoehe * 3.0) {
+        einschätzung = 'Das Pferd wirkt zu schlank.';
+      } else if (gerundet > hoehe * 4.0) {
+        einschätzung = 'Das Pferd ist vermutlich zu schwer.';
+      } else {
+        einschätzung = 'Das Gewicht liegt im normalen Bereich.';
+      }
+
+      document.getElementById('result').innerText = `Geschätztes Gewicht: ${gerundet} kg.\n${einschätzung}`;
+    }
+  </script>
+</body>
+</html>
